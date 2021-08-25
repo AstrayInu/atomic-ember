@@ -4,50 +4,47 @@ import $ from 'jquery'
 import { computed, action, set } from '@ember/object';
 
 export default class ContentComponent extends Component {
+  @service storage
+  @service api
+
   @computed('type')
-  get showTable() {
-    if(this.type == 'DOMPET' || this.type == "KATEGORI") {
-      $("#nama").removeClass("d-none")
-      if(this.type == "DOMPET") $("#ref").removeClass("d-none")
-      $("#status").removeClass("d-none")
-      $("#tgl").addClass("d-none")
-      $("#kode").addClass("d-none")
-      $("#cat").addClass("d-none")
-      $("#nilai").addClass("d-none")
-      $("#dompet").addClass("d-none")
+  get masterCheck() {
+    return this.type == 'DOMPET' || this.type == "KATEGORI" ? true : false
+  }
 
-      $("#nama-content").removeClass("d-none")
-      if(this.type == "DOMPET") $("#ref-content").removeClass("d-none")
-      $("#status-content").removeClass("d-none")
-      $("#tgl-content").addClass("d-none")
-      $("#kode-content").addClass("d-none")
-      $("#cat-content").addClass("d-none")
-      $("#nilai-content").addClass("d-none")
-      $("#dompet-content").addClass("d-none")
-    } else if(this.type == "DOMPET MASUK" || this.type == "DOMPET KELUAR" || this.type == 'result') {
-      $("#nama").addClass("d-none")
-      $("#ref").addClass("d-none")
-      $("#status").addClass("d-none")
-      $("#tgl").removeClass("d-none")
-      $("#kode").removeClass("d-none")
-      $("#cat").removeClass("d-none")
-      $("#nilai").removeClass("d-none")
-      $("#dompet").removeClass("d-none")
+  @computed('type')
+  get transaksiCheck() {
+    return this.type == "DOMPET MASUK" || this.type == "DOMPET KELUAR" || this.type == 'result' ? true : false
+  }
 
-      $("#nama-content").addClass("d-none")
-      $("#ref-content").addClass("d-none")
-      $("#status-content").addClass("d-none")
-      $("#tgl-content").removeClass("d-none")
-      $("#kode-content").removeClass("d-none")
-      $("#cat-content").removeClass("d-none")
-      $("#nilai-content").removeClass("d-none")
-      $("#dompet-content").removeClass("d-none")
-    }
+  @computed('type')
+  get subTitle() {
+    if(this.type == 'LAPORAN') return 'transaksi'
+    if(this.masterCheck) return `- ${this.stats}`
   }
 
   @action
-  addItem() {
+  filterStatus(val) {
+    set(this, 'stats', val == 1 ? 'Aktif' : 'Tidak Aktif')
+  }
+
+  @action
+  async openForm(val) {
+    if(val) await this.storage.lset('editData', val)
     $("#add-box").removeClass("d-none")
     $("#content-box").addClass("d-none")
+  }
+
+  @action
+  setStatus(status, id) {
+    let newStatus = status == 1 ? 2 : 1
+    this.api.changeStatus({type: this.type, newStatus, id}).then(response => {
+      console.log(response)
+      alert("Berhasil ubah status!")
+      location.reload()
+    }).catch(e => {
+      console.log(e)
+      alert("Error")
+    })
   }
 }

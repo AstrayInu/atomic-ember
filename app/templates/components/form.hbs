@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row content-header-container py-3">
       <div class="col align-self-center d-flex">
-        <p class="content-header">DOMPET <span class="content-header-status">- Buat Baru</span></p>
+        <p class="content-header">{{@type}} <span class="content-header-status">- Buat Baru</span></p>
       </div>
       <div class="col align-self-center justify-content-end d-flex">
         <button class="border-radius-3 ms-2 primary-bg-color white-txt-color" onclick={{action "closeAdd"}}>Kelola Dompet</button>
@@ -10,14 +10,6 @@
     </div>
   </div>
 </header>
-{{!-- <div class="row content-header-container p-3 mx-2 my-3">
-  <div class="col align-self-center d-flex">
-    <p class="content-header">DOMPET <span class="content-header-status">- Buat Baru</span></p>
-  </div>
-  <div class="col align-self-center justify-content-end d-flex">
-    <button class="border-radius-3 mx-2 primary-bg-color white-txt-color" onclick={{action "closeAdd"}}>Kelola Dompet</button>
-  </div>
-</div> --}}
 <div class="c-body">
   <div class="c-main">
     <div class="container-fluid">
@@ -25,38 +17,75 @@
         <div class="card-body">
           <div class="row content-container px-3 mx-2 white-bg-color">
             <div class="col my-3">
-              <form action="">
-                <div class="row my-1">
-                  <div class="col">
+              <div class="row my-1">
+                <div class="col">
+                  {{#if masterCheck}}
                     <p for="name">Nama: *</p>
-                    <Input @class="w-100" @name="name" @placeholder="Nama" @value={{this.name}} @keyUp={{action "inputName"}} required />
-                  </div>
+                    <Input @class="" @name="name" @placeholder="Nama" @value={{this.name}} @keyUp={{action "inputName"}} required />
+                  {{else}}
+                    <p for="kodeValue">Kode:</p>
+                    <Input @class="w-100" @name="kodeValue" @value={{this.kodeValue}} disabled />
+                  {{/if}}
+                </div>
+                {{#if (eq @type "DOMPET")}}
                   <div class="col">
                     <p for="ref">Referensi:</p>
-                    <Input @class="w-50" @name="ref" @placeholder="Referensi" />
+                    <Input @class="" @name="ref" @placeholder="Referensi" @value={{this.ref}} />
                   </div>
-                </div>
-                <div class="row my-1">
+                {{/if}}
+                {{#if transaksiCheck}}
                   <div class="col">
-                    <p for="desc">Deskripsi:</p>
-                    <textarea class="w-100" name="desc" id="" cols="30" rows="3" placeholder="Deskripsi" maxlength=100></textarea>
+                    <p for="date">Tanggal:</p>
+                    <Input @class="w-100" @name="date" @value={{this.currDate}} disabled />
+                  </div>
+                  <div class="col">
+                    <p for="date">Kategori:</p>
+                    <select class="w-100" name="" id="" value={{this.category}} onchange={{action 'inputCategory' value="target.value"}}>
+                      {{#each kategoriData as |data|}}
+                        <option value={{data.id}}>{{data.nama}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                  <div class="col">
+                    <p for="date">Dompet: *</p>
+                    <select class="w-100" name="" id="" value={{this.dompet}} onchange={{action 'inputDompet' value="target.value"}}>
+                      {{#each dompetData as |data|}}
+                        <option value={{data.id}}>{{data.nama}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                {{/if}}
+              </div>
+              {{#if transaksiCheck}}
+                <div class="row my-1">
+                  <div class="col-6">
+                    <p for="desc">Nilai: *</p>
+                    <Input @class="w-100" @value={{this.cashVal}} @keyUp={{action "inputNilai"}} />
                   </div>
                 </div>
+              {{/if}}
+              <div class="row my-1">
+                <div class="col">
+                  <p for="desc">Deskripsi:</p>
+                  <textarea class="w-100" name="desc" id="desc-input" cols="30" rows="3" value={{this.desc}} placeholder="Deskripsi" maxlength=100></textarea>
+                </div>
+              </div>
+              {{#if masterCheck}}
                 <div class="row my-1">
                   <div class="col">
                     <p>Status</p>
-                    <select name="add-status" id="">
-                      <option value="aktif" selected>Aktif</option>
-                      <option value="notAktif">Tidak Aktif</option>
+                    <select name="add-status" id="" value={{this.status}} onchange={{action "setStatus" value="target.value"}}>
+                      <option value="1" selected>Aktif</option>
+                      <option value="2">Tidak Aktif</option>
                     </select>
                   </div>
                 </div>
-                <div class="row mt-3">
-                  <div class="col">
-                    <button class="p-2 border-radius-3 primary-bg-color white-txt-color" type="submit" disabled={{this.isDisabled}}>Simpan</button>
-                  </div>
+              {{/if}}
+              <div class="row mt-3">
+                <div class="col">
+                  <button class="p-2 border-radius-3 primary-bg-color white-txt-color" onclick={{action "submitForm"}} disabled={{this.isDisabled}}>Simpan</button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

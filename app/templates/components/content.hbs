@@ -2,15 +2,17 @@
   <div class="container-fluid">
     <div class="row content-header-container py-3">
       <div class="col align-self-center d-flex">
-        <p class="content-header">{{@type}} <span class="content-header-status">- Aktif</span></p>
+        <p class="content-header">{{@type}} <span class="content-header-status">{{subTitle}}</span></p>
       </div>
       <div class="col align-self-center justify-content-end d-flex">
-        <select name="" id="">
-          <option value="all">Semua (2)</option>
-          <option value="aktif">Aktif (1)</option>
-          <option value="notAktif">Tidak Aktif (1)</option>
-        </select>
-        <button class="border-radius-3 ms-2 primary-bg-color white-txt-color" onclick={{action "addItem"}}>Buat Baru</button>
+        {{#if masterCheck}}
+          <select name="" id="" value={{this.stats}} onchange={{action 'filterStatus' "target.value"}}>
+            <option value="">Semua (2)</option>
+            <option value="1">Aktif (1)</option>
+            <option value="2">Tidak Aktif (1)</option>
+          </select>
+        {{/if}}
+        <button class="border-radius-3 ms-2 primary-bg-color white-txt-color" onclick={{action "openForm"}}>Buat Baru</button>
       </div>
     </div>
   </div>
@@ -32,121 +34,141 @@
               <Input @type="text" @placeholder="Cari..." />
             </div>
           </div>
-          {{!-- list dompet header --}}
+          {{!-- list content header --}}
           <div class="row mt-3">
             <div class="col primary-bg-color white-txt-color p-3">
               <div class="row">
                 <div class="col-md-1">
                   <p>#</p>
                 </div>
-                <div id="nama" class="col-md">
-                  <p>NAMA</p>
-                </div>
-                <div id="ref" class="col-md">
-                  <p>REFERENSI</p>
-                </div>
-                <div id="tgl" class="col-md">
-                  <p>TANGGAL</p>
-                </div>
-                <div id="kode" class="col-md">
-                  <p>KODE</p>
-                </div>
+                {{#if masterCheck}}
+                  <div id="nama" class="col-md">
+                    <p>NAMA</p>
+                  </div>
+                {{/if}}
+                {{#if (eq @type "DOMPET")}}
+                  <div id="ref" class="col-md">
+                    <p>REFERENSI</p>
+                  </div>
+                {{/if}}
+                {{#if transaksiCheck}}
+                  <div id="tgl" class="col-md">
+                    <p>TANGGAL</p>
+                  </div>
+                  <div id="kode" class="col-md">
+                    <p>KODE</p>
+                  </div>
+                {{/if}}
                 <div id="desc" class="col-md">
                   <p>DESKRIPSI</p>
                 </div>
-                <div id="cat" class="col-md">
-                  <p>KATEGORI</p>
-                </div>
-                <div id="nilai" class="col-md">
-                  <p>NILAI</p>
-                </div>
-                <div id="dompet" class="col-md">
-                  <p>DOMPET</p>
-                </div>
-                <div id="status" class="col-md">
-                  <p>STATUS</p>
-                </div>
+                {{#if transaksiCheck}}
+                  <div id="cat" class="col-md">
+                    <p>KATEGORI</p>
+                  </div>
+                  <div id="nilai" class="col-md">
+                    <p>NILAI</p>
+                  </div>
+                  <div id="dompet" class="col-md">
+                    <p>DOMPET</p>
+                  </div>
+                {{/if}}
+                {{#if masterCheck}}
+                  <div id="status" class="col-md">
+                    <p>STATUS</p>
+                  </div>
+                {{/if}}
                 <div class="col-md-2"></div>
               </div>
             </div>
           </div>
-          {{!-- end of list dompet header --}}
-          {{!-- list dompet --}}
-          {{!-- {{#if this.dompetData}} --}}
-            {{!-- {{#each this.dompetData as |data|}} --}}
+          {{!-- end of list content header --}}
+          {{!-- list content --}}
+          {{#if @data}}
+            {{#each @data as |stuff|}}
               <div class="row">
                 <div class="col p-3">
                   <div class="row">
                     <div class="col-md-1">
-                      <p>1</p>
+                      <p>{{stuff.id}}</p>
                     </div>
-                    <div id="nama-content" class="col-md">
-                      <p>Dompet Utama</p>
-                    </div>
-                    <div id="ref-content" class="col-md">
-                      <p>75127321</p>
-                    </div>
-                    <div id="tgl-content" class="col-md">
-                      <p>2021-03-08</p>
-                    </div>
-                    <div id="kode-content" class="col-md">
-                      <p>WIN0000001</p>
-                    </div>
+                    {{#if masterCheck}}
+                      <div id="nama-content" class="col-md">
+                        <p>{{stuff.nama}}</p>
+                      </div>
+                    {{/if}}
+                    {{#if (eq @type "DOMPET")}}
+                      <div id="ref-content" class="col-md">
+                        <p>{{stuff.referensi}}</p>
+                      </div>
+                    {{/if}}
+                    {{#if transaksiCheck}}
+                      <div id="tgl-content" class="col-md">
+                        <p>{{stuff.tanggal}}</p>
+                      </div>
+                      <div id="kode-content" class="col-md">
+                        <p>{{stuff.kode}}</p>
+                      </div>
+                    {{/if}}
                     <div id="desc-content" class="col-md">
-                      <p>Bank BCA</p>
+                      <p>{{stuff.deskripsi}}</p>
                     </div>
-                    <div id="cat-content" class="col-md">
-                      <p>Pemasukan</p>
-                    </div>
-                    <div id="nilai-content" class="col-md">
-                      <p>(+) 3,500,00</p>
-                    </div>
-                    <div id="dompet-content" class="col-md">
-                      <p>Dompet utama</p>
-                    </div>
-                    <div id="status-content" class="col-md">
-                      <p>Aktif</p>
-                    </div>
+                    {{#if transaksiCheck}}
+                      <div id="cat-content" class="col-md">
+                        <p>{{stuff.kategori}}</p>
+                      </div>
+                      <div id="nilai-content" class="col-md">
+                        <p>{{#if (eq @type "DOMPET MASUK")}}(+){{else}}(-){{/if}} {{stuff.nilai}}</p>
+                      </div>
+                      <div id="dompet-content" class="col-md">
+                        <p>{{stuff.dompet}}</p>
+                      </div>
+                    {{/if}}
+                    {{#if masterCheck}}
+                      <div id="status-content" class="col-md">
+                        <p>{{#if (eq stuff.status 1)}} Aktif {{else}} Tidak Aktif {{/if}}</p>
+                      </div>
+                    {{/if}}
                     <div class="col-md-2 d-flex text-center">
                       <div class="col">
-                        <a href="">
+                        <a href="#">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                           </svg>
                         </a>
                       </div>
                       <div class="col">
-                        <a href="">
+                        <a href="#" onclick={{action "openForm" stuff.id}}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                             <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                           </svg>
                         </a>
                       </div>
                       <div class="col">
-                        <a href="">
-                          {{!-- {{#if (eq data.status 1)}} --}}
+                        <a href="#" onclick={{action "setStatus" stuff.status stuff.id}}>
+                          {{#if (eq stuff.status 1)}}
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
                             </svg>
-                          {{!-- {{else}}
+                          {{else}}
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                               <path d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"/>
                             </svg>
-                          {{/if}} --}}
+                          {{/if}}
                         </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            {{!-- {{/each}} --}}
-          {{!-- {{else}} --}}
-            {{!-- <div>
+            {{/each}}
+          {{else}}
+            <div>
               <p>No Data</p>
-            </div> --}}
-          {{!-- {{/if}} --}}
-          {{!-- end of list dompet --}}
-          <div class="row border-top-4 py-2">{{this.showTable}}
+            </div>
+          {{/if}}
+          {{!-- end of list content --}}
+          <div class="row border-top-4 py-2">
             <div class="col align-self-center d-flex">
               <p>Showing 1 to 5 of 5 entities</p>
             </div>

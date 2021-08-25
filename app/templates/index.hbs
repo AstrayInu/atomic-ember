@@ -30,7 +30,7 @@
 </div>
 
 <div id="content-box" class="c-wrapper c-fixed-components">
-  <Content @type={{this.viewType}}/>
+  <Content @type={{this.viewType}} @data={{data}} />
   {{!-- footer --}}
   <footer class="footer">
     <div>
@@ -43,7 +43,7 @@
   {{!-- end of footer --}}
 </div>
 <div id="add-box" class="c-wrapper c-fixed-components d-none">
-  <Form />
+  <Form @type={{this.viewType}} @dompetData={{this.dompetData}} @kategoriData={{this.kategoriData}} />
   {{!-- footer --}}
   <footer class="footer">
     <div>
