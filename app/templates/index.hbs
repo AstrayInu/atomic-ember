@@ -1,0 +1,59 @@
+<div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-self-hiding-xl" id="sidebar">
+  <div class="sidebar-brand">
+    <p class="white-txt-color text-center">DOMPET FRITZ</p>
+  </div>
+
+  <ul class="c-sidebar-nav">
+    <li class="c-sidebar-nav-item">
+      <p>Master</p>
+      <ul>
+        <li class="cursor-pointer" onclick={{action 'changePage' 'DOMPET'}}>Dompet</li>
+        <li class="cursor-pointer" onclick={{action 'changePage' 'KATEGORI'}}>Kategori</li>
+      </ul>
+    </li>
+    <hr>
+    <li class="c-sidebar-nav-item">
+      <p>Transaksi</p>
+      <ul>
+        <li class="cursor-pointer" onclick={{action 'changePage' 'DOMPET MASUK'}}>Dompet Masuk</li>
+        <li class="cursor-pointer" onclick={{action 'changePage' 'DOMPET KELUAR'}}>Dompet Keluar</li>
+      </ul>
+    </li>
+    <hr>
+    <li class="c-sidebar-nav-item">
+      <p>Laporan</p>
+      <ul>
+        <li class="cursor-pointer" onclick={{action 'changePage' 'LAPORAN'}}>Laporan Transaksi</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div id="content-box" class="c-wrapper c-fixed-components">
+  <Content @type={{this.viewType}}/>
+  {{!-- footer --}}
+  <footer class="footer">
+    <div>
+      <p>Maju Bersama Atomic Indonesia</p>
+    </div>
+    <div class="ml-auto">
+      <p>Made by prit</p>
+    </div>
+  </footer>
+  {{!-- end of footer --}}
+</div>
+<div id="add-box" class="c-wrapper c-fixed-components d-none">
+  <Form />
+  {{!-- footer --}}
+  <footer class="footer">
+    <div>
+      <p>Maju Bersama Atomic Indonesia</p>
+    </div>
+    <div class="ml-auto">
+      <p>Made by prit</p>
+    </div>
+  </footer>
+  {{!-- end of footer --}}
+</div>
+
+

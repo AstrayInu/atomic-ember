@@ -1,0 +1,66 @@
+<header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+  <div class="container-fluid">
+    <div class="row content-header-container py-3">
+      <div class="col align-self-center d-flex">
+        <p class="content-header">DOMPET <span class="content-header-status">- Buat Baru</span></p>
+      </div>
+      <div class="col align-self-center justify-content-end d-flex">
+        <button class="border-radius-3 ms-2 primary-bg-color white-txt-color" onclick={{action "closeAdd"}}>Kelola Dompet</button>
+      </div>
+    </div>
+  </div>
+</header>
+{{!-- <div class="row content-header-container p-3 mx-2 my-3">
+  <div class="col align-self-center d-flex">
+    <p class="content-header">DOMPET <span class="content-header-status">- Buat Baru</span></p>
+  </div>
+  <div class="col align-self-center justify-content-end d-flex">
+    <button class="border-radius-3 mx-2 primary-bg-color white-txt-color" onclick={{action "closeAdd"}}>Kelola Dompet</button>
+  </div>
+</div> --}}
+<div class="c-body">
+  <div class="c-main">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+          <div class="row content-container px-3 mx-2 white-bg-color">
+            <div class="col my-3">
+              <form action="">
+                <div class="row my-1">
+                  <div class="col">
+                    <p for="name">Nama: *</p>
+                    <Input @class="w-100" @name="name" @placeholder="Nama" @value={{this.name}} @keyUp={{action "inputName"}} required />
+                  </div>
+                  <div class="col">
+                    <p for="ref">Referensi:</p>
+                    <Input @class="w-50" @name="ref" @placeholder="Referensi" />
+                  </div>
+                </div>
+                <div class="row my-1">
+                  <div class="col">
+                    <p for="desc">Deskripsi:</p>
+                    <textarea class="w-100" name="desc" id="" cols="30" rows="3" placeholder="Deskripsi" maxlength=100></textarea>
+                  </div>
+                </div>
+                <div class="row my-1">
+                  <div class="col">
+                    <p>Status</p>
+                    <select name="add-status" id="">
+                      <option value="aktif" selected>Aktif</option>
+                      <option value="notAktif">Tidak Aktif</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col">
+                    <button class="p-2 border-radius-3 primary-bg-color white-txt-color" type="submit" disabled={{this.isDisabled}}>Simpan</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
