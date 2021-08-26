@@ -5,12 +5,19 @@ import { Promise as EmberPromise } from 'rsvp';
 export default class ApiService extends Service {
   @service config
 
-  getData(type) {
+  getData(type, params) {
+    let url = `${this.config.appenv.API_ENDPOINT}/public/atomic?type=${type}`
+    if(params) {
+      let q = params.q ? params.q : null
+        , stats = params.stats ? params.stats : null
+      url += stats ? `&stats=${stats}` : '' 
+      url += q ? `&q=${q}` : '' 
+    }
     return new EmberPromise((resolve, reject) => {
       $.ajax({
         method: 'GET',
         contentType: 'application/json',
-        url: `${this.config.appenv.API_ENDPOINT}/public/atomic?type=${type}`
+        url
       }).then((response) => {
         resolve(response)
       }, (reason) => {

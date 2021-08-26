@@ -17,15 +17,21 @@ export default class ContentComponent extends Component {
     return this.type == "DOMPET MASUK" || this.type == "DOMPET KELUAR" || this.type == 'result' ? true : false
   }
 
-  @computed('type')
+  @computed('type', 'stats')
   get subTitle() {
     if(this.type == 'LAPORAN') return 'transaksi'
-    if(this.masterCheck) return `- ${this.stats}`
+    if(this.masterCheck) return this.stats == 1 ? `- Aktif` : this.stats == 2 ? '- Tidak Aktif' : `- Semua`
   }
 
   @action
   filterStatus(val) {
-    set(this, 'stats', val == 1 ? 'Aktif' : 'Tidak Aktif')
+    set(this, 'stats', val)
+    this.setFilter(val)
+  }
+
+  @action
+  searchQuery(val) {
+    this.setSearch(val)
   }
 
   @action

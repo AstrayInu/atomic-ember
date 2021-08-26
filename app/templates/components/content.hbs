@@ -6,7 +6,7 @@
       </div>
       <div class="col align-self-center justify-content-end d-flex">
         {{#if masterCheck}}
-          <select name="" id="" value={{this.stats}} onchange={{action 'filterStatus' "target.value"}}>
+          <select name="" id="" value={{this.stats}} onchange={{action 'filterStatus' value='target.value'}}>
             <option value="">Semua (2)</option>
             <option value="1">Aktif (1)</option>
             <option value="2">Tidak Aktif (1)</option>

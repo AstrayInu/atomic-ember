@@ -6,6 +6,13 @@ import { computed, action, set } from '@ember/object';
 export default class IndexController extends Controller {
   @service storage
 
+  constructor() {
+    super(...arguments);
+    this.queryParams = [
+      'stats', 'q'
+    ]
+  }
+
   @computed('type')
   get viewType() {
     return this.type || this.storage.lget("viewType") || 'DOMPET'
@@ -17,6 +24,16 @@ export default class IndexController extends Controller {
     if(this.type == "KATEGORI" || this.storage.lget("viewType") == "KATEGORI") return this.kategoriData
     if(this.type == "DOMPET MASUK" ||  this.storage.lget("viewType") == "DOMPET MASUK") return this.transaksiData.filter(x => x.status == 1)
     if(this.type == "DOMPET KELUAR" || this.storage.lget("viewType") == "DOMPET KELUAR") return this.transaksiData.filter(x => x.status == 2)
+  }
+
+  @action
+  setFilter(val) {
+    set(this, 'stats', val)
+  }
+
+  @action
+  setSearch(val) {
+    set(this, 'q', val)
   }
 
   @action
